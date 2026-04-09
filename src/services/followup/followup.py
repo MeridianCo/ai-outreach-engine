@@ -32,21 +32,18 @@ if __name__ == "__main__":
         "user_experience": "Built 2 ML projects, interned at a fintech startup",
         "user_goals": "Break into AI product roles at mid-stage startups",
 
-        # Recipient's profile
-        "recipient_name": "Sarah Chen",
-        "recipient_role": "AI Product Lead at Series B startup",
-        "recipient_company": "NovaMind AI",
-        "recipient_context": "Recently posted about challenges in productizing LLMs, spoke at NeurIPS",
-
         # Follow-up history
         "platform": "LinkedIn",
         "followups_sent": 1,
         "last_followup_days_ago": 6
     })  
     sample_target_context = json.dumps({
-        "name": "Bob",
-        "job": "Data Scientist at DataInc",
-        "interests": "machine learning, traveling, photography"
+        # Target's profile
+        "target_name": "Sarah Chen",
+        "target_role": "AI Product Lead at Series B startup",
+        "target_company": "NovaMind AI",
+        "target_context": "Recently posted about challenges in productizing LLMs, spoke at NeurIPS",
+
     })
 
     output = service.run(

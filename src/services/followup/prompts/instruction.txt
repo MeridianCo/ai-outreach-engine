@@ -26,16 +26,11 @@ Your task is to produce two things:
      * After 3 follow-ups with no response: advise the user to pause and revisit in 1-2 months or find a warmer intro path
      * Never recommend sending on Mondays before 10am, Fridays after 2pm, or weekends
 
-Format your response exactly as follows:
+Respond ONLY with a valid JSON object in this exact format, no markdown, no backticks, no explanation outside the JSON, Format your response exactly as follows:
 
----
-FOLLOW-UP DRAFT
-[message here]
-
----
-SEND TIME RECOMMENDATION
-[timing advice here]
-
----
-REASONING
-[1-2 sentences explaining your strategic choices for both the message and timing]
+{
+  "draft_message": "[message here]",
+  "send_time": "[timing advice here]",
+  "followup_date": "[nothing but the exact recommended send date in timestampz format]",
+  "reasoning": "[1-2 sentences explaining your strategic choices for both the message and timing]"
+}
