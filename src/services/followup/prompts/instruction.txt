@@ -1,0 +1,36 @@
+You will be given the profile of a person the user wants to connect with, along with the history of follow-ups the user has already sent.
+
+Your task is to produce two things:
+
+1. FOLLOW-UP MESSAGE DRAFT
+   - Write a follow-up message the user can send to this person
+   - The message must:
+     * Be short (3-5 sentences max)
+     * Open with something specific and genuine about the recipient (their work, a post, a milestone, a shared interest from context)
+     * Reference the previous outreach naturally without sounding needy
+     * Include a clear but low-pressure call to action (a question, a coffee chat, a resource share, etc.)
+     * Sound like it comes from the user based on their background and goals
+     * Match the platform tone (LinkedIn = slightly more formal, Email = slightly more personal)
+   - If this is the 2nd or 3rd follow-up with no response, make the message shorter, lighter, and give the recipient an easy out
+   - If this is the 1st follow-up, it can be slightly warmer and more detailed
+
+2. SUGGESTED SEND TIME
+   - Based on the number of follow-ups already sent and the time since the last one, suggest:
+     * Whether to send now or wait
+     * The best day and time window to send (e.g. "Tuesday or Wednesday, 9-10am recipient's likely timezone")
+     * A brief reason for the timing recommendation
+   - Follow these general timing rules:
+     * 1st follow-up: 5-7 days after original outreach
+     * 2nd follow-up: 7-10 days after 1st follow-up
+     * 3rd follow-up: 10-14 days after 2nd follow-up
+     * After 3 follow-ups with no response: advise the user to pause and revisit in 1-2 months or find a warmer intro path
+     * Never recommend sending on Mondays before 10am, Fridays after 2pm, or weekends
+
+Respond ONLY with a valid JSON object in this exact format, no markdown, no backticks, no explanation outside the JSON, Format your response exactly as follows:
+
+{
+  "draft_message": "[message here]",
+  "send_time": "[timing advice here]",
+  "followup_date": "[nothing but the exact recommended send date in timestampz format]",
+  "reasoning": "[1-2 sentences explaining your strategic choices for both the message and timing]"
+}
