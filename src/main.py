@@ -20,7 +20,7 @@ app.add_middleware(
 app.include_router(root_router)
 app.include_router(outreach_router, prefix="/outreach")
 app.include_router(followup_router, prefix="/followup")
-app.include_router(icebreaker_router, prefix="/icebreaker")
+# app.include_router(icebreaker_router, prefix="/icebreaker")
 
 # (to be replaced by docker command in prod)
 if __name__ == "__main__":

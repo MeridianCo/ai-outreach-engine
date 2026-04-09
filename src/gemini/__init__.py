@@ -1,19 +1,40 @@
 import os
-
+from pathlib import Path
 from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
 
+BASE_DIR = Path(__file__).parent
+
 # Load Gemini API key from .env
 api_key = os.getenv("GEMINI_API_KEY")
 
-# Init Gemini client
-client = genai.Client(api_key=api_key)
+# Load agent role prompt
+main_role_prompt = Path(BASE_DIR / "prompts" / "agent_role.txt").read_text().strip()
 
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="Write a poem about a sunset." # test prompt to test connection
-)
-
-print(response.text)
+# Init Gemini client as a class
+class GeminiAgent:
+    def __init__(self, api_key=api_key):
+        self.client = genai.Client(api_key=api_key)
+        self.model = "gemini-2.5-flash"  # Default model (free tier)
+        self.role = main_role_prompt
+        
+    def generate_content(self, user_context, target_context, instruction):
+        system_prompt = ( 
+            f"This is your role:{self.role}\n"
+            f"\nThis is the relevant context about the user:\n{user_context} and"
+            f"\nThis is the relevant context about the desired connection:\n{target_context}\n"
+        )
+        
+        response = self.client.models.generate_content(
+            model=self.model,
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt
+            ),
+            contents=instruction
+        )
+        return response.text
+            
+    
