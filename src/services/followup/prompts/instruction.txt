@@ -30,7 +30,6 @@ Respond ONLY with a valid JSON object in this exact format, no markdown, no back
 
 {
   "draft_message": "[message here]",
-  "send_time": "[timing advice here]",
-  "followup_date": "[nothing but the exact recommended send date in timestampz format]",
-  "reasoning": "[1-2 sentences explaining your strategic choices for both the message and timing]"
+  "scheduled_for": "[nothing but the exact recommended send date in timestampz format]",
+  "ai_reasoning": "[1-2 sentences explaining your strategic choices for both the message and timing]"
 }
