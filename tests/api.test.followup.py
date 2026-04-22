@@ -68,4 +68,6 @@ if __name__ == "__main__":
         "target_context": target_ctx
     })
 
+    print(r.status_code)
+    print(r.text)
     print(r.json())
