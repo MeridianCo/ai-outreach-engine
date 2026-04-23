@@ -1,7 +1,6 @@
 import requests, json
 
 if __name__ == "__main__":   
-     
     # Relevant context from database for generating followup message. 
     # In proper implementation, the backend would fetch this and create a context object from the DB based on user_id, contact_id, and note_id.
 
@@ -63,7 +62,7 @@ if __name__ == "__main__":
         }]
     })
                             
-    r = requests.get("http://localhost:8000/followup/generate", params={
+    r = requests.get("http://localhost:8000/followup/test/generate", params={
         "user_context": user_ctx,
         "target_context": target_ctx
     })
