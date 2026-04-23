@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from services.followup import FollowupService
-from db.queries import user_context_query, target_context_query
+from db.queries import followup_contexts_query
 
 router = APIRouter()
 
@@ -20,9 +20,8 @@ async def health_check():
     return {"status": "ok"}
 
 @router.get("/generate")
-async def generate(contact_id: str):
-    user_context = user_context_query(contact_id) 
-    target_context = target_context_query(contact_id)
+async def generate(user_id: str, contact_id: str):
+    user_context, target_context = followup_contexts_query(contact_id)
 
     followup_message = followup_service.run(
         about_user_json=user_context, 

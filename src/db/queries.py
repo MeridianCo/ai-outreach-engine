@@ -1,7 +1,7 @@
 
 from . import supabase
 
-def user_data_query(user_id: str) -> str:
+def users_table_query(user_id: str) -> dict:
     user_table = supabase.table("users")
     user_data_raw = user_table.select("*").eq("id", user_id).execute()
 
@@ -14,7 +14,7 @@ def user_data_query(user_id: str) -> str:
             "company": user_data.get("company")
         }
 
-def contact_data_query(contact_id: str) -> str:
+def contacts_table_query(contact_id: str) -> dict:
     contacts_table = supabase.table("contacts")
     contact_data_raw = contacts_table.select("*").eq("id", contact_id).execute()
 
@@ -26,18 +26,51 @@ def contact_data_query(contact_id: str) -> str:
             "job_title": contact_data.get("job_title"),
             "company": contact_data.get("company")
         }
+    
+def notes_from_entities_query(contact_id: str) -> list:
+    note_ids = []
+    entities_table = supabase.table("entities")
 
-def followup_message_query(contact_id: str) -> str:
-    user_context = None
-    target_context = None
-        
-    contacts_table = supabase.table("contacts")
-    user_id_raw = contacts_table.select("user_id").eq("id", contact_id).execute()
+    entities_a_raw = entities_table.select("*").eq("entity_a_id", contact_id).eq("entity_b_type", "note").execute()
+    if entities_a_raw.status_code == 200 and entities_a_raw.data:
+        for entity in entities_a_raw.data:
+            note_ids.append(entity.get("entity_b_id"))
 
-    if user_id_raw.status_code == 200 and user_id_raw.data:
-        user_id = user_id_raw.data[0].get("user_id")
-        if user_id:
-            user_context = user_data_query(user_id)
-    target_context = contact_data_query(contact_id)
+    entities_b_raw = entities_table.select("*").eq("entity_b_id", contact_id).eq("entity_a_type", "note").execute()
+    if entities_b_raw.status_code == 200 and entities_b_raw.data:
+        for entity in entities_b_raw.data:
+            note_ids.append(entity.get("entity_a_id"))
 
-    return user_context, target_context
+    return note_ids
+    
+def notes_table_query(notes_ids: list) -> list:
+    notes_data = []
+    notes_table = supabase.table("notes")
+
+    notes_data_raw = notes_table.select("*").in_("id", notes_ids).execute()
+    if notes_data_raw.status_code == 200 and notes_data_raw.data:
+        for note in notes_data_raw.data:
+            notes_data.append({
+                "content": note.get("content"),
+                "created_at": note.get("created_at")
+            })
+    return notes_data
+    
+def followups_table_query(user_id: str, contact_id: str) -> list:
+    followups_table = supabase.table("followups")
+    followup_data_raw = followups_table.select("*").eq("user_id", user_id).eq("contact_id", contact_id).execute()
+
+    if followup_data_raw.status_code == 200 and followup_data_raw.data:
+        return followup_data_raw.data
+
+def followup_contexts_query(user_id: str, contact_id: str) -> tuple:
+    user_context = {}
+    target_context = {}
+    
+    user_context = users_table_query(user_id)
+    notes_ids = notes_from_entities_query(contact_id)
+    target_context.update(contacts_table_query(contact_id))
+    target_context.update({"all_relevant_notes": notes_table_query(notes_ids)})
+    target_context.update({"previous_followups": followups_table_query(user_id, contact_id)})
+
+    return user_context, target_context 
