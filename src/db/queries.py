@@ -8,10 +8,10 @@ def users_table_query(user_id: str) -> dict:
     if user_data_raw.status_code == 200 and user_data_raw.data:
         user_data = user_data_raw.data[0]
         return {
-            "name": user_data.get("name"),
-            "email": user_data.get("email"),
-            "job_title": user_data.get("job_title"),
-            "company": user_data.get("company")
+            "first_name": user_data.get("first_name"),
+            "last_name": user_data.get("last_name"),
+            "headline": user_data.get("headline"),
+            "goals": user_data.get("goals")
         }
 
 def contacts_table_query(contact_id: str) -> dict:
@@ -22,9 +22,17 @@ def contacts_table_query(contact_id: str) -> dict:
         contact_data = contact_data_raw.data[0]
         return {
             "name": contact_data.get("name"),
-            "email": contact_data.get("email"),
-            "job_title": contact_data.get("job_title"),
-            "company": contact_data.get("company")
+            "context": contact_data.get("context")
+        }
+    
+def enriched_table_query(contact_id: str) -> dict:
+    enriched_table = supabase.table("enrichment_caches")
+    enriched_data_raw = enriched_table.select("*").eq("contact_id", contact_id).eq("status", "completed").execute()
+
+    if enriched_data_raw.status_code == 200 and enriched_data_raw.data:
+        enriched_data = enriched_data_raw.data[0]
+        return {
+            "payload": enriched_data.get("payload")
         }
     
 def notes_from_entities_query(contact_id: str) -> list:
@@ -51,8 +59,9 @@ def notes_table_query(notes_ids: list) -> list:
     if notes_data_raw.status_code == 200 and notes_data_raw.data:
         for note in notes_data_raw.data:
             notes_data.append({
-                "content": note.get("content"),
-                "created_at": note.get("created_at")
+                "title": note.get("title"),
+                "text": note.get("text"),
+                "checklist": note.get("checklist")
             })
     return notes_data
     
@@ -61,15 +70,20 @@ def followups_table_query(user_id: str, contact_id: str) -> list:
     followup_data_raw = followups_table.select("*").eq("user_id", user_id).eq("contact_id", contact_id).execute()
 
     if followup_data_raw.status_code == 200 and followup_data_raw.data:
-        return followup_data_raw.data
+        for followup in followup_data_raw.data:
+            return {
+                "status": followup.get("status"),
+                "message": followup.get("message"),
+                "scheduled_for": followup.get("scheduled_for")
+            }
 
 def followup_contexts_query(user_id: str, contact_id: str) -> tuple:
-    user_context = {}
-    target_context = {}
-    
     user_context = users_table_query(user_id)
+
+    target_context = {}
     notes_ids = notes_from_entities_query(contact_id)
     target_context.update(contacts_table_query(contact_id))
+    target_context.update({"enriched_data": enriched_table_query(contact_id)})
     target_context.update({"all_relevant_notes": notes_table_query(notes_ids)})
     target_context.update({"previous_followups": followups_table_query(user_id, contact_id)})
 

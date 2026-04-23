@@ -21,7 +21,7 @@ async def health_check():
 
 @router.get("/generate")
 async def generate(user_id: str, contact_id: str):
-    user_context, target_context = followup_contexts_query(contact_id)
+    user_context, target_context = followup_contexts_query(user_id, contact_id)
 
     followup_message = followup_service.run(
         about_user_json=user_context, 
