@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # routes
-from api.routes import root_router, outreach_router, followup_router, icebreaker_router
+from .routes import root_router, outreach_router, followup_router, icebreaker_router
 
 # init fastapi app
 app = FastAPI(title="Outreach Engine API")

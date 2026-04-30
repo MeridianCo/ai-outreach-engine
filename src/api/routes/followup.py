@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from services.followup import FollowupService
-from db.queries import followup_contexts_query
+from src.services.followup import FollowupService
+from src.db.queries import followup_contexts_query
 
 router = APIRouter()
 

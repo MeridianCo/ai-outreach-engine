@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from gemini import GeminiAgent
+from src.gemini import GeminiAgent
 
 BASE_DIR = Path(__file__).parent
 prompts_directory = BASE_DIR / "prompts" / "instruction.txt"
