@@ -28,17 +28,24 @@ async def generate(user_id: str, contact_id: str):
         about_user_json=user_context, 
         about_target_json=target_context
     )
+    
+    try:
+        followup_json = followup_response.json()
+    except Exception as e:
+        print("Error parsing follow-up response:", e)
+        followup_json = {}
 
     print("Generated Follow-up Response:", followup_response)
+    print("Follow-up JSON:", followup_json)
 
     followup = FollowupModel(
-        user_id=followup_response.get("user_id"),
-        contact_id=followup_response.get("contact_id"),
-        status=followup_response.get("status"),
+        user_id=user_id,
+        contact_id=contact_id,
+        status=followup_json.get("status"),
 
-        draft_message=followup_response.get("draft_message"),
-        scheduled_for=followup_response.get("scheduled_for"),
-        ai_reasoning=followup_response.get("ai_reasoning")
+        draft_message=followup_json.get("draft_message"),
+        scheduled_for=followup_json.get("scheduled_for"),
+        ai_reasoning=followup_json.get("ai_reasoning")
     )
     save_followup_query(followup)
 
