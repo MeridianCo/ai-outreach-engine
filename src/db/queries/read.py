@@ -1,4 +1,4 @@
-from . import supabase
+from .. import supabase
 
 def users_table_query(user_id: str) -> dict:
     result = supabase.table("users").select("*").eq("id", user_id).execute()

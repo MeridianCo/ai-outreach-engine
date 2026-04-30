@@ -1,5 +1,5 @@
 import json
-from src.db.queries import (
+from db.queries.read import (
     users_table_query,
     contacts_table_query,
     enriched_table_query,
