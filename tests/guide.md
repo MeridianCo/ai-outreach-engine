@@ -1,6 +1,6 @@
 ## How to Run Tests
 
-From the root directory:
+From the root directory (should be in venv):
 
 ``` bash
 python3 -m pytest tests/[directory] -s
@@ -12,5 +12,5 @@ python3 -m pytest tests/[directory] -s
 ### Example
 
 ``` bash
-python3 -m pytest tests/supabase/test_queries.py -s
+python3 -m pytest tests/supabase/test_queries.py
 ```
