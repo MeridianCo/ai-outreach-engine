@@ -46,7 +46,6 @@ if __name__ == "__main__":
             # "id": "d1b2c3d4-0004-0004-0004-000000000004",
             # "user_id": "a1b2c3d4-0001-0001-0001-000000000001",
             # "contact_id": "b1b2c3d4-0002-0002-0002-000000000002",
-            # "note_id": "c1b2c3d4-0003-0003-0003-000000000003",
             "status": "draft",
             "message": "Hey Sarah, loved your NeurIPS talk on LLM productization — I've been building something in that space and would love to get your take on it.",
             "scheduled_for": "2025-05-01T09:00:00Z",

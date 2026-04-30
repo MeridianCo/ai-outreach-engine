@@ -1,5 +1,5 @@
 import json
-from db.queries import (
+from src.db.queries import (
     users_table_query,
     contacts_table_query,
     enriched_table_query,
@@ -9,9 +9,9 @@ from db.queries import (
     followup_contexts_query
 )
 
-TEST_USER_ID     = "a1b2c3d4-0001-0001-0001-000000000001"
-TEST_CONTACT_ID  = "b1b2c3d4-0002-0002-0002-000000000002"
-TEST_NOTE_IDS    = ["c1b2c3d4-0003-0003-0003-000000000003"]
+TEST_USER_ID     = "1d33b810-7e13-4d0d-b9fd-8da8bae3ac14"
+TEST_CONTACT_ID  = "5582d451-d476-4655-9462-998b6e9ecc86"
+TEST_NOTE_IDS    = ["963a562b-16e6-48f3-8dd6-7ce2d8ed50a2"]
 
 def test_users_table_query():
     print("\n── users_table_query ──────────────────────")
