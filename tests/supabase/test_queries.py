@@ -9,7 +9,7 @@ from src.db.queries import (
     followup_contexts_query
 )
 
-# These are my account's test user and contact IDs — replace with your own for testing
+# These are my account's test user and contact IDs, replace with your own for testing
 TEST_USER_ID     = "1d33b810-7e13-4d0d-b9fd-8da8bae3ac14"
 TEST_CONTACT_ID  = "5582d451-d476-4655-9462-998b6e9ecc86"
 TEST_NOTE_IDS    = ["963a562b-16e6-48f3-8dd6-7ce2d8ed50a2"]
