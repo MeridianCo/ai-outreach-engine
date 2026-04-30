@@ -1,5 +1,5 @@
 from src.models.followup import FollowupModel
-from src.db.queries.write import save_followup_query
+from src.db.queries.write import save_followup
 
 # These are my account's test user and contact IDs, replace with your own for testing
 TEST_USER_ID     = "1d33b810-7e13-4d0d-b9fd-8da8bae3ac14"
@@ -16,7 +16,7 @@ def test_save_followup_query():
         scheduled_for="2023-10-15T10:00:00Z",
         ai_reasoning="Based on previous interactions, this is a good time to check in."
     )
-    save_followup_query(followup)
+    save_followup(followup)
     print("✓ PASSED")
 
 

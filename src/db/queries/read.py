@@ -73,7 +73,7 @@ def followups_table_query(user_id: str, contact_id: str) -> list:
         ]
     return []
 
-def followup_contexts_query(user_id: str, contact_id: str) -> tuple:
+def get_followup_contexts(user_id: str, contact_id: str) -> tuple:
     user_context = users_table_query(user_id)
     target_context = {}
 

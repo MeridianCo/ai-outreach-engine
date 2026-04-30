@@ -6,7 +6,7 @@ from db.queries.read import (
     notes_from_entities_query,
     notes_table_query,
     followups_table_query,
-    followup_contexts_query
+    get_followup_contexts
 )
 
 # These are my account's test user and contact IDs, replace with your own for testing
@@ -79,7 +79,7 @@ def test_followups_table_query():
 
 def test_followup_contexts_query():
     print("\n───────────────────────────────────── Followup Contexts Query ─────────────────────────────────────")
-    user_ctx, target_ctx = followup_contexts_query(TEST_USER_ID, TEST_CONTACT_ID)
+    user_ctx, target_ctx = get_followup_contexts(TEST_USER_ID, TEST_CONTACT_ID)
     print("user_context:")
     print(json.dumps(user_ctx, indent=2, default=str))
     print("target_context:")
