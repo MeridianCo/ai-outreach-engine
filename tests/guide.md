@@ -13,7 +13,7 @@ python3 -m pytest tests/[directory] -s
 ### Example
 
 ``` bash
-python3 -m pytest tests/supabase/test_queries.py
+python3 -m pytest tests/supabase/read/test_queries.py
 ```
 
 ------------------------------------------------------------------------
