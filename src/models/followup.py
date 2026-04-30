@@ -1,7 +1,7 @@
 from enum import Enum
 from pydantic import BaseModel
 
-class FollowupStatus(Enum):
+class FollowupStatus(str, Enum):
     DRAFT = "draft"
     SCHEDULED = "scheduled"
     SENT = "sent"

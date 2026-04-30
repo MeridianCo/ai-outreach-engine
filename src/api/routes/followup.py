@@ -28,7 +28,7 @@ async def generate(user_id: str, contact_id: str):
         about_user_json=user_context, 
         about_target_json=target_context
     )
-    
+
     try:
         followup_json = followup_response.json()
     except Exception as e:
@@ -41,7 +41,7 @@ async def generate(user_id: str, contact_id: str):
     followup = FollowupModel(
         user_id=user_id,
         contact_id=contact_id,
-        status=followup_json.get("status"),
+        status="draft", # Initial status should always be "draft"
 
         draft_message=followup_json.get("draft_message"),
         scheduled_for=followup_json.get("scheduled_for"),
