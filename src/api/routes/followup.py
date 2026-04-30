@@ -1,9 +1,11 @@
 from fastapi import APIRouter
+from pydantic import json
 
+from src.utils.ai_parser import convert_to_json
 from src.models.followup import FollowupModel
 from src.services.followup import FollowupService
-from db.queries.read import followup_contexts_query
-from db.queries.write import save_followup_query
+from src.db.queries.read import followup_contexts_query
+from src.db.queries.write import save_followup_query
 
 router = APIRouter()
 followup_service = FollowupService()
@@ -30,10 +32,10 @@ async def generate(user_id: str, contact_id: str):
     )
 
     try:
-        followup_json = followup_response.json()
+        followup_json = convert_to_json(followup_response)
     except Exception as e:
         print("Error parsing follow-up response:", e)
-        followup_json = {}
+        return {"error": "Failed to parse follow-up response"}
 
     print("Generated Follow-up Response:", followup_response)
     print("Follow-up JSON:", followup_json)
@@ -47,7 +49,13 @@ async def generate(user_id: str, contact_id: str):
         scheduled_for=followup_json.get("scheduled_for"),
         ai_reasoning=followup_json.get("ai_reasoning")
     )
-    save_followup_query(followup)
+    try:
+        save_followup_query(followup)
+    except Exception as e:
+        print("Error saving follow-up to database:", e)
+        return {"error": "Failed to save follow-up to database"}
+    
+    return {"followup": followup}
 
 
 @router.post("/regenerate")
