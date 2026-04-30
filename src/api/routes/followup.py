@@ -29,16 +29,17 @@ async def generate(user_id: str, contact_id: str):
     )
     return {"followup_message": followup_message}
 
+@router.post("/regenerate")
+async def regenerate():
+    #TODO: Implement regenerate logic given consolidated user + feedback
+    return {"message": "Regenerating followup content based on feedback..."}
+
 # TESTING ENDPOINT WITH STATIC CONTEXTS
 @router.get("/test/generate")
-async def test_generate(user_context: dict, target_context: dict):
+async def test_generate(user_context: str, target_context: str):
+    
     followup_message = followup_service.run(
         about_user_json=user_context, 
         about_target_json=target_context
     )
     return {"followup_message": followup_message}
-
-@router.post("/regenerate")
-async def regenerate():
-    #TODO: Implement regenerate logic given consolidated user + feedback
-    return {"message": "Regenerating followup content based on feedback..."}
