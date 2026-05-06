@@ -1,0 +1,55 @@
+
+name: CI - Outreach Engine
+
+on:
+	push:
+		branches: [ main, master ]
+	pull_request:
+		branches: [ main, master ]
+
+jobs:
+	test:
+		runs-on: ubuntu-latest
+		strategy:
+			matrix:
+				python-version: [3.10, 3.11, 3.12]
+
+		steps:
+		- name: Checkout repository
+			uses: actions/checkout@v4
+
+		- name: Set up Python
+			uses: actions/setup-python@v4
+			with:
+				python-version: ${{ matrix.python-version }}
+
+		- name: Install dependencies
+			run: |
+				python -m pip install --upgrade pip
+				if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+
+		- name: Run tests
+			run: |
+				if [ -f pytest.ini ] || [ -d tests ]; then
+					pip install pytest >/dev/null || true
+					pytest -q
+				else
+					echo "No tests found, skipping"
+				fi
+
+	build:
+		needs: test
+		runs-on: ubuntu-latest
+		steps:
+		- name: Checkout repository
+			uses: actions/checkout@v4
+
+		- name: Create package (if setup.py exists)
+			run: |
+				if [ -f setup.py ]; then
+					python -m pip install --upgrade build
+					python -m build
+				else
+					echo "No setup.py, skipping build"
+				fi
