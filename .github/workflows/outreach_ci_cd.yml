@@ -47,11 +47,3 @@ jobs:
 		- name: Checkout repository
 			uses: actions/checkout@v4
 
-		- name: Create package (if setup.py exists)
-			run: |
-				if [ -f setup.py ]; then
-					python -m pip install --upgrade build
-					python -m build
-				else
-					echo "No setup.py, skipping build"
-				fi
