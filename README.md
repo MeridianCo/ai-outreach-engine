@@ -90,7 +90,7 @@ project/
 
 ---
 
-## 🧪 Development Tips
+## 🧪 To Consider
 
 * Use Uvicorn with `--reload` during development
 * Keep business logic in `services/` and API logic in `api/`
