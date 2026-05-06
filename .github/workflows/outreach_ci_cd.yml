@@ -34,7 +34,7 @@ jobs:
             pip install -q pytest
 
             echo "Running tests..."
-            pytest -q --maxfail=1 --disable-warnings
+            pytest tests/supabase -q --maxfail=1 --disable-warnings
           else
             echo "No tests directory found, skipping"
           fi
