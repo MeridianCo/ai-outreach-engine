@@ -12,6 +12,7 @@ dependencies = [
     "google-genai",
     "requests",
     "uvicorn",
+    "python-dotenv",
 ]
 
 [project.optional-dependencies]
