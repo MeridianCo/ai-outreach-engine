@@ -70,3 +70,12 @@ jobs:
         run: |
           docker push us-central1-docker.pkg.dev/meridian-495517/cloud-run-source-deploy/my-api:${{ github.sha }}
           docker push us-central1-docker.pkg.dev/meridian-495517/cloud-run-source-deploy/my-api:latest
+
+      - name: Auto Deploy via Cloud Run
+        run: |
+          gcloud run deploy outreach-engine \
+            --image=us-central1-docker.pkg.dev/meridian-495517/cloud-run-source-deploy/my-api:${{ github.sha }} \
+            --region=us-central1 \
+            --platform=managed \
+            --allow-unauthenticated \
+            --set-env-vars="GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }},SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }},SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }},SUPABASE_URL=${{ secrets.SUPABASE_URL }}"
