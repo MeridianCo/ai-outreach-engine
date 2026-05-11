@@ -17,3 +17,4 @@ INJECTION_PATTERNS = [
     r"act as",
     r"jailbreak",
 ]
+
