@@ -9,10 +9,12 @@ class GeminiAgent:
         self.role = AGENT_ROLE
         
     def generate_content(self, user_context, target_context, instruction):
-        system_prompt = ( 
-            f"This is your role:{self.role}\n"
-            f"\nThis is the relevant context about the user:\n{user_context} and"
-            f"\nThis is the relevant context about the desired connection:\n{target_context}\n"
+        system_prompt = (
+            f"This is your role: {self.role}\n\n"
+            f"This is the relevant context about the user:\n"
+            f"<user_context>\n{user_context}\n</user_context>\n\n"
+            f"This is the relevant context about the desired connection:\n"
+            f"<target_context>\n{target_context}\n</target_context>\n"
         )
         
         response = self.client.models.generate_content(
