@@ -23,3 +23,11 @@ def sanitize_for_injection(text: str) -> str:
     for pattern in INJECTION_PATTERNS:
         text = re.sub(pattern, "[removed]", text, flags=re.IGNORECASE)
     return text.strip()
+
+def validate_ai_response(response: dict, expected_columns: list, max_field_length: int = 2000) -> dict:
+    if not isinstance(response, dict):
+        raise ValueError("AI response must be a JSON object")
+    
+    filtered = {k: v for k, v in response.items() if k in expected_columns} # silently drops unexpected columns
+    
+    return filtered
