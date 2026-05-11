@@ -1,5 +1,5 @@
 from .. import supabase
-from db.schema import FOLLOW_UPS_APP_WRITABLE
+from src.db.schema import FOLLOW_UPS_APP_WRITABLE
 from src.models.followup import FollowupModel
 from src.utils.ai_parser import validate_ai_response
 
