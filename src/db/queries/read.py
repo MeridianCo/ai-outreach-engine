@@ -1,14 +1,15 @@
 from .. import supabase
+from src.utils.ai_parser import sanitize_for_injection
 
 def users_table_query(user_id: str) -> dict:
     result = supabase.table("users").select("*").eq("id", user_id).execute()
     if result.data:
         user = result.data[0]
         return {
-            "first_name": user.get("first_name"),
-            "last_name": user.get("last_name"),
-            "headline": user.get("headline"),
-            "goals": user.get("goals")
+            "first_name": sanitize_for_injection(user.get("first_name")),
+            "last_name": sanitize_for_injection(user.get("last_name")),
+            "headline": sanitize_for_injection(user.get("headline")),
+            "goals": sanitize_for_injection(user.get("goals"))
         }
     return {}
 
@@ -17,8 +18,8 @@ def contacts_table_query(contact_id: str) -> dict:
     if result.data:
         contact = result.data[0]
         return {
-            "name": contact.get("name"),
-            "context": contact.get("context")
+            "name": sanitize_for_injection(contact.get("name")),
+            "context": sanitize_for_injection(contact.get("context"))
         }
     return {}
 
@@ -52,9 +53,9 @@ def notes_table_query(note_ids: list) -> list:
     if result.data:
         return [
             {
-                "title": note.get("title"),
-                "text": note.get("text"),
-                "checklist": note.get("checklist")
+                "title": sanitize_for_injection(note.get("title")),
+                "text": sanitize_for_injection(note.get("text")),
+                "checklist": sanitize_for_injection(note.get("checklist"))
             }
             for note in result.data
         ]
@@ -66,7 +67,7 @@ def followups_table_query(user_id: str, contact_id: str) -> list:
         return [
             {
                 "status": f.get("status"),
-                "draft_message": f.get("draft_message"),
+                "draft_message": sanitize_for_injection(f.get("draft_message")),
                 "scheduled_for": f.get("scheduled_for")
             }
             for f in result.data
