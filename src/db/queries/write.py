@@ -7,3 +7,4 @@ def save_followup(followup: FollowupModel) -> None:
     raw = followup.model_dump()
     safe = validate_ai_response(raw, FOLLOW_UPS_APP_WRITABLE)
     supabase.table("follow_ups").insert(safe).execute()
+    
