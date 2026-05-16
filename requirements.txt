@@ -30,7 +30,6 @@ mdurl==0.1.2
 mmh3==5.2.1
 multidict==6.7.1
 mypy_extensions==1.1.0
--e git+https://github.com/MeridianCo/ai-outreach-engine.git@0b9eb5675d1f8e3241a46a064583871e0fd2d622#egg=outreach_engine
 packaging==26.1
 pathspec==1.0.4
 platformdirs==4.9.6
