@@ -2,6 +2,7 @@ from pathlib import Path
 from google import genai
 from google.genai import types
 from src.gemini.config import AGENT_ROLE, GEMINI_KEY, GEMINI_MODEL
+
 class GeminiAgent:
     def __init__(self):
         self.client = genai.Client(api_key=GEMINI_KEY)
