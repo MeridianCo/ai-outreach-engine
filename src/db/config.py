@@ -5,7 +5,6 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-SUPABASE_JWT = os.getenv("SUPABASE_JWT_SECRET")
 
 INJECTION_PATTERNS = [
     # Direct instruction override / hierarchy attacks

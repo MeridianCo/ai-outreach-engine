@@ -5,7 +5,7 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 
 from src.db.queries.read import get_user_id_by_auth_id
-from src.db.config import SUPABASE_URL, SUPABASE_JWT
+from src.db.config import SUPABASE_URL
 
 def _get_public_key():
     jwks = requests.get(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json").json()
