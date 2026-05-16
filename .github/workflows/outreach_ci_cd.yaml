@@ -47,6 +47,7 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_JWT_SECRET: ${{ secrets.SUPABASE_JWT_SECRET }}
         run: |
           if [ -d tests ]; then
             echo "Running tests..."
@@ -115,5 +116,6 @@ jobs:
             --update-env-vars GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }} \
             --update-env-vars SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} \
             --update-env-vars SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }} \
-            --update-env-vars SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            --update-env-vars SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
+            --update-env-vars SUPABASE_JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}
  
