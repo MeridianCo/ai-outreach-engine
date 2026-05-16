@@ -1,16 +1,22 @@
+import requests
 import jwt as pyjwt
 from fastapi import Header, HTTPException, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 
 from src.db.queries.read import get_user_id_by_auth_id
-from src.db.config import SUPABASE_JWT
+from src.db.config import SUPABASE_URL, SUPABASE_JWT
+
+def _get_public_key():
+    jwks = requests.get(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json").json()
+    return pyjwt.algorithms.ECAlgorithm.from_jwk(jwks['keys'][0])
 
 def decode_jwt(token: str) -> dict | None:
     try:
+        public_key = _get_public_key()
         return pyjwt.decode(
             token,
-            SUPABASE_JWT,
+            public_key,
             algorithms=["ES256"],
             audience="authenticated"
         )
