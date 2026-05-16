@@ -113,6 +113,7 @@ jobs:
             --region=us-central1 \
             --platform=managed \
             --allow-unauthenticated \
+            --max-instances=3 \
             --update-env-vars GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }} \
             --update-env-vars SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} \
             --update-env-vars SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }} \
