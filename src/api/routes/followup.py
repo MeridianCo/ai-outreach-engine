@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 
 from src.models.followup import FollowupModel
 from src.services.followup import FollowupService
 
-from src.api.middleware.auth import get_current_user
+from src.api.middleware.auth import get_current_user, limiter
 from src.db.queries.read import get_followup_contexts
 from src.db.queries.write import save_followup
 from src.utils.ai_parser import convert_to_json
@@ -16,7 +16,8 @@ async def health_check():
     return {"status": "ok"}
 
 @router.get("/generate")
-async def generate(contact_id: str, user_id: str = Depends(get_current_user)):
+@limiter.limit("15/minute")
+async def generate(request: Request, contact_id: str, user_id: str = Depends(get_current_user)):
     user_context, target_context = get_followup_contexts(user_id, contact_id)
 
     followup_response = followup_service.run(
@@ -48,10 +49,10 @@ async def generate(contact_id: str, user_id: str = Depends(get_current_user)):
     return {"followup": followup}
 
 # TESTING ENDPOINT WITH STATIC CONTEXTS
-@router.get("/test/generate")
-async def test_generate(user_context: str, target_context: str):
-    followup_response = followup_service.run(
-        about_user_json=user_context, 
-        about_target_json=target_context
-    )    
-    return {"followup_response": followup_response}
+# @router.get("/test/generate")
+# async def test_generate(user_context: str, target_context: str):
+#     followup_response = followup_service.run(
+#         about_user_json=user_context, 
+#         about_target_json=target_context
+#     )    
+#     return {"followup_response": followup_response}
