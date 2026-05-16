@@ -2,7 +2,7 @@
 
 ## 📦 Prerequisites
 
-* Python 3.10+
+* Python 3.10+ (ci/cd pipeline currently only tests for Python 3.12)
 * Virtual environment (recommended)
 
 ---
