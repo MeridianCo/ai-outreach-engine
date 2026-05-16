@@ -1,8 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
 from src.models.followup import FollowupModel
 from src.services.followup import FollowupService
 
+from src.api.middleware.auth import get_current_user
 from src.db.queries.read import get_followup_contexts
 from src.db.queries.write import save_followup
 from src.utils.ai_parser import convert_to_json
@@ -15,7 +16,7 @@ async def health_check():
     return {"status": "ok"}
 
 @router.get("/generate")
-async def generate(user_id: str, contact_id: str):
+async def generate(contact_id: str, user_id: str = Depends(get_current_user)):
     user_context, target_context = get_followup_contexts(user_id, contact_id)
 
     followup_response = followup_service.run(
@@ -28,10 +29,6 @@ async def generate(user_id: str, contact_id: str):
     except Exception as e:
         print("Error parsing follow-up response:", e)
         return {"error": "Failed to parse follow-up response"}
-
-    # Debugging logs
-    # print("Generated Follow-up Response:", followup_response)
-    # print("Follow-up JSON:", followup_json)
 
     followup = FollowupModel(
         user_id=user_id,
