@@ -11,7 +11,7 @@ def decode_jwt(token: str) -> dict | None:
         return pyjwt.decode(
             token,
             SUPABASE_JWT,
-            algorithms=["HS256"],
+            algorithms=["ES256"],
             audience="authenticated"
         )
     except pyjwt.PyJWTError:
